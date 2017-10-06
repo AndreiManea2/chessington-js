@@ -21,15 +21,22 @@ export default class Pawn extends Piece {
 
         const availableMoves: Square[] = [];
 
-        // Always can move one square forward
+        //Can move one square forward if no piece is blocking
         const oneStep = Square.at(currentSquare.row + direction, currentSquare.col);
-        availableMoves.push(oneStep);
 
-        // If it hasn't moved yet, it can also move two squares forward
-        if (!this.hasMoved) {
-            const twoStep = Square.at(currentSquare.row + 2 * direction, currentSquare.col);
-            availableMoves.push(twoStep);
+        if(!board.getPiece(oneStep)) {
+            availableMoves.push(oneStep);
+
+            // If it hasn't moved yet and the square is not blocked, it can also move two squares forward
+            if (!this.hasMoved) {
+                const twoStep = Square.at(currentSquare.row + 2 * direction, currentSquare.col);
+
+                if(!board.getPiece(twoStep)) {
+                    availableMoves.push(twoStep);
+                }
+            }
         }
+
 
         return availableMoves;
     }
