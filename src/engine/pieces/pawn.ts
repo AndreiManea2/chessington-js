@@ -8,6 +8,7 @@ export default class Pawn extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        return new Array(0);
+        const currentSquare = board.findPiece(this);
+        return {'col': currentSquare.col, 'row': this.player === Player.WHITE ? currentSquare.row + 1 : currentSquare.row - 1};
     }
 }
