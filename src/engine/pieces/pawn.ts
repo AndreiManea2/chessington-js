@@ -11,7 +11,8 @@ export default class Pawn extends Piece {
     }
 
     public moveTo(board: Board, newSquare: Square) {
-        super.moveTo(board, newSquare);
+        const currentSquare = board.findPiece(this);
+        board.movePiece(currentSquare, newSquare);
         this.hasMoved = true;
     }
 
@@ -56,6 +57,31 @@ export default class Pawn extends Piece {
             }
         }
 
+        availableMoves.push(...this.getEnPassantMoves(board, currentSquare));
+
         return availableMoves;
+    }
+
+    private getEnPassantMoves(board: Board, currentSquare: Square) {
+        const direction = this.player === Player.WHITE ? 1 : -1;
+        const moves: Square[] = [];
+
+        const lastMove = board.lastMove;
+        if (!lastMove) return moves;
+
+        const {from, to, piece} = lastMove;
+
+        if (
+            piece instanceof Pawn &&
+            piece.player !== this.player &&
+            Math.abs(from.row - to.row) === 2 &&
+            to.row === currentSquare.row &&
+            Math.abs(to.col - currentSquare.col) === 1
+        ) {
+            const enPassantSquare = Square.at(currentSquare.row + direction, to.col);
+            moves.push(enPassantSquare);
+        }
+
+        return moves;
     }
 }
