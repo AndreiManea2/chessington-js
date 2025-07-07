@@ -30,13 +30,23 @@ export default class Piece {
 
             while(this.checkBounds(row, col)) {
                 const nextSquare = Square.at(row, col);
-                if (!board.getPiece(nextSquare)) {
+                const pieceAtTarget = board.getPiece(nextSquare);
+
+                if (!pieceAtTarget) {
                     availableMoves.push(nextSquare);
-                    row += direction.row;
-                    col += direction.col;
                 } else {
+                    if (pieceAtTarget.player !== this.player) {
+                        if(pieceAtTarget.constructor.name !== 'King') {
+                            availableMoves.push(nextSquare);
+                        }
+                    }
+
                     break;
+
                 }
+
+                row += direction.row;
+                col += direction.col;
             }
         }
 
