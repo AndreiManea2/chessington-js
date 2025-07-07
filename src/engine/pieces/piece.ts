@@ -28,7 +28,7 @@ export default class Piece {
             let row = currentSquare.row + direction.row;
             let col = currentSquare.col + direction.col;
 
-            while(row >= 0 && row < GameSettings.BOARD_SIZE && col >= 0 && col < GameSettings.BOARD_SIZE) {
+            while(this.checkBounds(row, col)) {
                 const nextSquare = Square.at(row, col);
                 if (!board.getPiece(nextSquare)) {
                     availableMoves.push(nextSquare);
@@ -41,5 +41,9 @@ export default class Piece {
         }
 
         return availableMoves;
+    }
+
+    protected checkBounds(row: number, col: number) {
+        return row >= 0 && row < GameSettings.BOARD_SIZE && col >= 0 && col < GameSettings.BOARD_SIZE
     }
 }
