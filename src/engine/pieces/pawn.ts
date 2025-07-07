@@ -41,6 +41,21 @@ export default class Pawn extends Piece {
             }
         }
 
+        const diagonalOffsets = [-1, 1];
+        for (const colOffset of diagonalOffsets) {
+            const targetRow = currentSquare.row + direction;
+            const targetCol = currentSquare.col + colOffset;
+
+            if(this.checkBounds(targetRow, targetCol)) {
+                const targetSquare = Square.at(targetRow, targetCol);
+                const piece = board.getPiece(targetSquare);
+
+                if (piece && piece.player !== this.player && piece.constructor.name !== 'King') {
+                    availableMoves.push(targetSquare);
+                }
+            }
+        }
+
         return availableMoves;
     }
 }
