@@ -30,9 +30,13 @@ export default class Piece {
 
             while(row >= 0 && row < GameSettings.BOARD_SIZE && col >= 0 && col < GameSettings.BOARD_SIZE) {
                 const nextSquare = Square.at(row, col);
-                availableMoves.push(nextSquare);
-                row += direction.row;
-                col += direction.col;
+                if (!board.getPiece(nextSquare)) {
+                    availableMoves.push(nextSquare);
+                    row += direction.row;
+                    col += direction.col;
+                } else {
+                    break;
+                }
             }
         }
 
