@@ -10,10 +10,6 @@ export default class Rook extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const currentSquare = board.findPiece(this);
-
-        const availableMoves: Square[] = [];
-
         const directions = [
             {row: 0, col: 1}, // right
             {row: 0, col: -1}, // left
@@ -21,18 +17,6 @@ export default class Rook extends Piece {
             {row: -1, col: 0}, // up
         ];
 
-        for (const direction of directions) {
-            let row = currentSquare.row + direction.row;
-            let col = currentSquare.col + direction.col;
-
-            while(row >= 0 && row < GameSettings.BOARD_SIZE && col >= 0 && col < GameSettings.BOARD_SIZE) {
-                const nextSquare = Square.at(row, col);
-                availableMoves.push(nextSquare);
-                row += direction.row;
-                col += direction.col;
-            }
-        }
-
-        return availableMoves;
+        return this.getLinearMoves(board, directions);
     }
 }
